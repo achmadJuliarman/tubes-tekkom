@@ -5,8 +5,6 @@ $t_keyword = [];
 $t_operator = [];
 $t_name = [];
 $t_nilai_konstanta = [];
-$tokens = [];
-
 
 // $str = 'before-str-after';
 // if (preg_match('/-(.*?)-/', $str, $match) == 1) {
@@ -135,13 +133,11 @@ var_dump($t_nilai_konstanta);
 
 function getTokens($delimiter, $name, $keyword, $operator, $konstanta)
 {
-	
-	$tokens = array();
-	array_push($tokens, $delimiter);
-	array_push($tokens, $operator);
-	array_push($tokens, $name);
-	array_push($tokens, $keyword);
-	array_push($tokens, $konstanta);
+	$tokens['delimiter'] = $delimiter;
+	$tokens['keyword'] = $name;
+	$tokens['name'] = $keyword;
+	$tokens['operator'] = $operator;
+	$tokens['nilai_konstanta'] = $konstanta;
 
 	return $tokens;
 }
