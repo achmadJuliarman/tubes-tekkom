@@ -27,19 +27,25 @@ while($i < strlen($chars))
 
 // PERIKSA KEYWORD DAN NAMA VARIABEL
 $keyword = ['const', 'var', 'let', 'if', 'else', 'function', 'length', 'return'];
-$myfile = str_replace(array("\n"), ' ', $myfile); // untuk hapus enter agar symbol di line baru terbaca
+$myfile = str_replace(array("\n", "\t", "{", "}"), " ", $myfile); // untuk hapus enter agar symbol di line baru terbaca
 $words = explode(" ",$myfile);
+var_dump($words);
 // var_dump($myfile);
 $k = 0;
+echo "<br>";
 while($k < count($words))
 {
-	$word = $words[$k];
-	if (in_array($word, $keyword)) {
-		array_push($t_keyword, $word); // memasukkan keyword ke token
-		if ($word === 'const' || $word === 'var' || $word === 'let') 
+	echo "$k - $words[$k] <br>";
+	if (in_array($words[$k], $keyword)) {
+		array_push($t_keyword, $words[$k]); // memasukkan keyword ke token
+		if ($words[$k] === 'const' || $words[$k] === 'var' || $words[$k] === 'let') 
 		{
 			array_push($t_name, $words[$k+1]); // memasukan nama variabel ke token name
 		}
+	}
+
+	if($words[$k] === 'return'){
+		echo '<b>return nih</b><br>';
 	}
 	$k++;
 }
@@ -104,26 +110,27 @@ while($o < strlen($chars))
 	}
 	$o++;
 }
-echo '<br><br>TOKEN DELIMITER';
-var_dump($t_delimiter);
-echo 'TOKEN OPERATOR';
-var_dump($t_operator);
-echo 'TOKEN NAME';
-var_dump($t_name);
-echo 'TOKEN KEYWORD';
-var_dump($t_keyword);
+// echo '<br><br>TOKEN DELIMITER';
+// var_dump($t_delimiter);
+// echo 'TOKEN OPERATOR';
+// var_dump($t_operator);
+// echo 'TOKEN NAME';
+// var_dump($t_name);
+// echo 'TOKEN KEYWORD';
+// var_dump($t_keyword);
 
-function getTokens($delimiter, $name, $keyword)
+function getTokens($delimiter, $name, $keyword, $operator)
 {
 	
 	$tokens = array();
 	array_push($tokens, $delimiter);
+	array_push($tokens, $operator);
 	array_push($tokens, $name);
 	array_push($tokens, $keyword);
 	return $tokens;
 }
 
 echo "<br><br><br>KUMPULAN TOKENS";
-var_dump(getTokens($t_delimiter, $t_name, $t_keyword));
+var_dump(getTokens($t_delimiter, $t_name, $t_keyword, $t_operator));
 
  ?>
