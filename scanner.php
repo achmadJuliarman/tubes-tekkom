@@ -29,13 +29,12 @@ while($i < strlen($chars))
 $keyword = ['const', 'var', 'let', 'if', 'else', 'function', 'length', 'return'];
 $myfile = str_replace(array("\n", "\t", "{", "}"), " ", $myfile); // untuk hapus enter agar symbol di line baru terbaca
 $words = explode(" ",$myfile);
-var_dump($words);
+// var_dump($words);
 // var_dump($myfile);
 $k = 0;
 echo "<br>";
 while($k < count($words))
 {
-	echo "$k - $words[$k] <br>";
 	if (in_array($words[$k], $keyword)) {
 		array_push($t_keyword, $words[$k]); // memasukkan keyword ke token
 		if ($words[$k] === 'const' || $words[$k] === 'var' || $words[$k] === 'let') 
@@ -44,9 +43,6 @@ while($k < count($words))
 		}
 	}
 
-	if($words[$k] === 'return'){
-		echo '<b>return nih</b><br>';
-	}
 	$k++;
 }
 
