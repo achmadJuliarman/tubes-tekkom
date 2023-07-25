@@ -8,11 +8,14 @@ $t_nilai_konstanta = [];
 $tokens = [];
 
 
-
+// $str = 'before-str-after';
+// if (preg_match('/-(.*?)-/', $str, $match) == 1) {
+//     var_dump($match);
+// }
 
 // PERIKSA DELIMITER 
 echo $myfile;
-$chars = strval($myfile);
+$chars = $myfile;
 $i = 0;
 $delimiter = [';', '(', ')'];
 while($i < strlen($chars))
@@ -29,7 +32,6 @@ while($i < strlen($chars))
 $keyword = ['const', 'var', 'let', 'if', 'else', 'function', 'length', 'return'];
 $myfile = str_replace(array("\n", "\t", "{", "}"), " ", $myfile); // untuk hapus enter agar symbol di line baru terbaca
 $words = explode(" ",$myfile);
-// var_dump($words);
 // var_dump($myfile);
 $k = 0;
 echo "<br>";
@@ -106,16 +108,32 @@ while($o < strlen($chars))
 	}
 	$o++;
 }
-// echo '<br><br>TOKEN DELIMITER';
-// var_dump($t_delimiter);
-// echo 'TOKEN OPERATOR';
-// var_dump($t_operator);
-// echo 'TOKEN NAME';
-// var_dump($t_name);
-// echo 'TOKEN KEYWORD';
-// var_dump($t_keyword);
 
-function getTokens($delimiter, $name, $keyword, $operator)
+// PERIKSA NILAI KONSTANTA
+// periksa perhuruf trus kalau gak ketemu ' ' concat string
+$nk = 0;
+$nilai_k = "";
+$konstanta = str_replace('"', "--", $myfile);
+$konstanta = str_replace("'", "--", $konstanta);
+preg_match_all('/--(.*?)--/', $konstanta, $kons);
+
+for ($i=0; $i < count($kons[1]); $i++) { 
+	array_push($t_nilai_konstanta, $kons[1][$i]);
+}
+
+
+echo '<br><br>TOKEN DELIMITER';
+var_dump($t_delimiter);
+echo 'TOKEN OPERATOR';
+var_dump($t_operator);
+echo 'TOKEN NAME';
+var_dump($t_name);
+echo 'TOKEN KEYWORD';
+var_dump($t_keyword);
+echo 'TOKEN NILAI KONSTANTA';
+var_dump($t_nilai_konstanta);
+
+function getTokens($delimiter, $name, $keyword, $operator, $konstanta)
 {
 	
 	$tokens = array();
@@ -123,10 +141,12 @@ function getTokens($delimiter, $name, $keyword, $operator)
 	array_push($tokens, $operator);
 	array_push($tokens, $name);
 	array_push($tokens, $keyword);
+	array_push($tokens, $konstanta);
+
 	return $tokens;
 }
 
 echo "<br><br><br>KUMPULAN TOKENS";
-var_dump(getTokens($t_delimiter, $t_name, $t_keyword, $t_operator));
+var_dump(getTokens($t_delimiter, $t_name, $t_keyword, $t_operator, $t_nilai_konstanta));
 
  ?>
