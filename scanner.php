@@ -138,7 +138,6 @@ function getTokens($delimiter, $name, $keyword, $operator, $konstanta)
 	$tokens['name'] = $keyword;
 	$tokens['operator'] = $operator;
 	$tokens['nilai_konstanta'] = $konstanta;
-
 	return $tokens;
 }
 
