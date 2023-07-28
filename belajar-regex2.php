@@ -153,13 +153,43 @@ $r = "/\.$/"; // match of the end of the statement
 
 // look behind
 // we'll got every single word that preceded inside group
-$r = "/(?<=[t|T]he)/"; //matches the group before the main expres without including it in result; so we got whitespace
+$r = "/(?<=[tT]he)./"; //matches the group before the main expres without including it in result; so we got whitespace
 // harusnya ini cuman 2 sih
 
-$s = "let umur = 20";
-$r = "/(?<=\=\s)./";
+// $s = "let umur = 20;
+// let nama = arman;";
+// $r = "/(?<=\=\s).*(?=\;)/"; //make sure we have whitespace after = 
+
+$r = "/(?<![tT]he)./"; // so ini akan mengambil seluruh  karakter yang tidak didahului the or The
+
+
+// look ahead
+$r = "/.(?=at)/";
+
+
+// check phone number
+$s = "081222672843";
+$r = "/[0]\d{11,12}/";
+
+$s = "123821222
+128-121-123
+123 123 123";
+$r = "/\d{3}[\s-]?\d{3}[\s-]?\d{3}/";
+$r = "/(\d{3})[\s-]?(\d{3})[\s-]?(\d{3})/"; // dengan menambahkan kurung artinya kita hanya akan mengambil karakter yang ada di group atau ()
+
+// name a group
+$r = "/(?<tigapertama>\d{3})[\s-]?(?<tigakedua>\d{3})[\s-]?(?<tigaketiga>\d{3})/";
+
+// none capture group
+$s = "(123) 456-789
++1 123 456 789";
+$r = "/\(?(?<tigapertama>\d{3})\)?[\s-]?(?<tigakedua>\d{3})[\s-]?(?<tigaketiga>\d{3})/";
+$r = "/(?:(\+1)[ -])?\(?(?<tigapertama>\d{3})\)?[\s-]?(?<tigakedua>\d{3})[\s-]?(?<tigaketiga>\d{3})/";
+// ?: untung menhiraukan yang tidak kita cari
 preg_match_all($r, $s, $m);
 var_dump($m);
+
+// none capture group
 
 
  ?>
