@@ -3,7 +3,7 @@ let jurusan = "informatika";
 var fakultas = "Fakultas Teknik Dan Ilmu Komputer"		;
 let umur =20;
 let lahir = 2023-20;
-// ** * - -= ++ + % - -- -= | || & && < <= > >=
+** * - -= ++ + % - -- -= | || & && < <= > >= != <<=
 // ini single line comment
 /*
 
