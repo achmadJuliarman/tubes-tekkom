@@ -5,12 +5,13 @@ $myfile = preg_replace("/\/\*.*?\*\//s", " ", $myfile); // hapus multiline comme
 $myfile = preg_replace("/(?<=\=)(?=[^=])/s", " ", $myfile); // tambah \s jika setelah = tidak ada spasi
 $myfile = preg_replace("/(?<=\=)\s*(?=[^=])/s", " ", $myfile); // ubah multi \s dengan single \s
 $myfile = preg_replace("/(?<=)\s*(?=\;)/s", "", $myfile); // hapus \s sebelum semicolon
+var_dump($myfile);
+
 $keywordRegex = 
 "/(?<=[^A-Za-z0-9])(function|if|else|return|var|let|const|for|while|switch|case|break|continue|do|default|class|new|this|typeof|instanceof|import|export|static)(?=[^A-Za-z0-9])/";
-var_dump($myfile);
-$delimiterRegex = "/[\(\){}\[\];,.]/";
+$delimiterRegex = "/[\(\)\{\}\[\];,.]/";
 $valueRegexNumber = "/(?<=\s)[0-9]*[ -|-]?[0-9]*?(?=\;)/m";
-$valueRegexString = "/(?<=\")(.*?)(?=\")/";
+$valueRegexString = "/(?<=\"|\')(.*?)(?=\"\;|\'\;)/";
 // $operatorRegex = "/\?[\:\=\!\|\&]|[\&\|\^~\<\>\+\-\*\/%]?\=?\=|\>\>|\>\>\>|\+\+|\-\-|\&\&\=|\|\|\=|\?\?=/";
 $operatorRegex = "/(?<=\s|[A-z0-9])==|!=|=|\*\*|\*|\/|\+=|\+\+|\+|-=|--|-|%|\|\||\||&&|&=|&|\<\<=|\<=|\<|\>\>=|\>=|\>(?=[\s|^\s]|[A-z0-9])/";
 
