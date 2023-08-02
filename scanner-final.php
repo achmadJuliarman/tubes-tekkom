@@ -161,21 +161,6 @@ function getTokens(){
       fileReader.readAsText(selectedFile);
     }
   });
-
-  document.getElementById('scan').addEventListener('click', function() {
-    const fileInput = document.getElementById('fileInput');
-    const fileReader = new FileReader();
-
-    fileReader.onload = function() {
-      const fileContent = fileReader.result;
-      document.getElementById('fileContent').value = fileContent;
-    };
-
-    const selectedFile = fileInput.files[0];
-    if (selectedFile) {
-      fileReader.readAsText(selectedFile);
-    }
-  });
  </script>
   </body>
 </html>
