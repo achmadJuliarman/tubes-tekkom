@@ -70,9 +70,18 @@ function getTokens(){
       font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      font-family: !important Arial, sans-serif;
+      font-family: !important monospace;
     }
 
+    #editor { 
+        position: absolute;
+        top: 25%;
+        right: 0;
+        bottom: 0;
+        left: 25%;
+        width: 30%;
+        height: 30%;
+    }
   </style>
   <body>
  <nav class="navbar bg-primary" data-bs-theme="dark">
@@ -95,9 +104,9 @@ function getTokens(){
       </div>
       <form action="#tokens" method="post"> 
         <?php if (!empty($_POST['js-code'])) : ?>
-          <textarea id="fileContent" placeholder="Mulai mengetik atau unggah file javascript" width="400px" name="js-code"><?= $_POST['js-code'] ?></textarea>
+          <textarea id="fileContent" placeholder="Mulai mengetik atau unggah file javascript" width="400px" name="js-code" style="font-family:Monospace;"><?= $_POST['js-code'] ?></textarea>
         <?php else : ?>
-          <textarea id="fileContent" placeholder="Mulai mengetik atau unggah file javascript" width="400px" name="js-code"></textarea>
+          <textarea id="fileContent" placeholder="Mulai mengetik atau unggah file javascript" width="400px" name="js-code" style="font-family:Monospace;"></textarea>
         <?php endif; ?>
       <div class="col-auto" align="right">
         <button type="submit" class="btn btn-primary mb-3" id="scan">Scan Kode Ini</button>
@@ -174,5 +183,12 @@ function getTokens(){
     }
   });
  </script>
+ <!-- editor highlighter -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.23.4/ace.js"></script>
+<script>  
+  var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/javascript");
+</script>
   </body>
 </html>
