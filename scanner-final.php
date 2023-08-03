@@ -6,7 +6,8 @@ if (isset($_POST['js-code'])) {
 }
 $myfile = preg_replace("/\/\/.*/", " ", $myfile); // hapus single comment
 $myfile = preg_replace("/\/\*.*?\*\//s", " ", $myfile); // hapus multiline comment
-$myfile = preg_replace("/(?<=\=)(?=[^=])/s", " ", $myfile); // tambah \s jika setelah = tidak ada spasi
+$myfile = preg_replace("/(?<=\=)(?=[^=])/s", " ", $myfile); // tambah \s jika setelah = tidak ada spasi, untuk variabel
+$myfile = preg_replace("/(?<=[A-z0-9])(?==)/s", " ", $myfile); // tambah \s jika sebelum = tidak ada spasi, untuk variabel
 $myfile = preg_replace("/(?<=\=)\s*(?=[^=])/s", " ", $myfile); // ubah multi \s dengan single \s
 $myfile = preg_replace("/(?<=)\s*(?=\;)/s", "", $myfile); // hapus \s sebelum semicolon
 
@@ -16,13 +17,15 @@ $delimiterRegex = "/[\(\)\{\}\[\];,.]/";
 $valueRegexNumber = "/(?<=\s)[0-9]*[ -|-]?[0-9]*?(?=\;)/m";
 $valueRegexString = "/(?<=\"|\')(.*?)(?=\"\;|\'\;)/";
 $operatorRegex = "/(?<=\s|[A-z0-9])==|!=|=|\*\*|\*|\/|\+=|\+\+|\+|-=|--|-|%|\|\||\||&&|&=|&|\<\<=|\<=|\<|\>\>=|\>=|\>(?=[\s|^\s]|[A-z0-9])/";
+$variabelRegex = "/(?<=var|let|const|[,|\s,])\w+(?=\s=|\s,|,)/";
 
 $tokens = [
   "keyword" => [],
   "delimiter" => [],
   "value_number" => [],
   "value_string" => [],
-  "operator" => []
+  "operator" => [],
+  "variabel" => []
 ];
 preg_match_all($keywordRegex, $myfile, $t_keyword); 
 array_push($tokens['keyword'], $t_keyword[0]);
@@ -38,7 +41,9 @@ array_push($tokens['value_string'], $t_value_string[0]);
 
 preg_match_all($operatorRegex, $myfile, $t_operator);
 array_push($tokens['operator'], $t_operator[0]);
-  
+
+preg_match_all($variabelRegex, $myfile, $t_variabel);
+array_push($tokens['variabel'], $t_variabel[0]);
 
 function getTokens(){
     global $tokens;
@@ -110,6 +115,7 @@ function getTokens(){
 <?php $t_o = $tokens['operator'][0];?>
 <?php $t_vn = $tokens['value_number'][0];?>
 <?php $t_vs = $tokens['value_string'][0];?>
+<?php $t_v = $tokens['variabel'][0];?>
 <div class="tokens container mt-4" id="tokens" style="height:90vh;">
   <h2><img src="semicolon.png" alt="Bootstrap" style="width:5%;" class="mx-4">Token Yang Didapatkan</h2>
   <div class="table-group-divider mt-4 mb-2"></div>
@@ -141,6 +147,12 @@ function getTokens(){
     <h4><span class="badge rounded-pill text-bg-primary">Nilai Konstanta (String)</span></h4>
     <?php foreach($t_vs as $vs ) : ?>
       <span class="mx-2"><?= $vs ?></span>
+    <?php endforeach; ?>
+  </div>
+  <div class="variabe my-4">
+    <h4><span class="badge rounded-pill text-bg-primary">Variabel</span></h4>
+    <?php foreach($t_v as $v ) : ?>
+      <span class="mx-2"><?= $v ?></span>
     <?php endforeach; ?>
   </div>
 </div>
