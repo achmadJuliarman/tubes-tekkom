@@ -104,9 +104,11 @@ function getTokens(){
       </div>
       <form action="#tokens" method="post"> 
         <?php if (!empty($_POST['js-code'])) : ?>
-          <textarea id="fileContent" placeholder="Mulai mengetik atau unggah file javascript" width="400px" name="js-code" style="font-family:Monospace;"><?= $_POST['js-code'] ?></textarea>
+          <textarea id="fileContent" placeholder="Mulai mengetik atau unggah file javascript" width="400px" 
+          name="js-code" style="font-family: Monospace; background-color: #1b1b1b; color: white;"><?= $_POST['js-code'] ?></textarea>
         <?php else : ?>
-          <textarea id="fileContent" placeholder="Mulai mengetik atau unggah file javascript" width="400px" name="js-code" style="font-family:Monospace;"></textarea>
+          <textarea id="fileContent" placeholder="Mulai mengetik atau unggah file javascript" width="400px" name="js-code" 
+          style="font-family: Monospace;background-color: #1b1b1b; color: white;"></textarea>
         <?php endif; ?>
       <div class="col-auto" align="right">
         <button type="submit" class="btn btn-primary mb-3" id="scan">Scan Kode Ini</button>
