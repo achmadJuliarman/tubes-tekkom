@@ -137,43 +137,43 @@ function getTokens(){
   <h2><img src="semicolon.png" alt="Bootstrap" style="width:5%;" class="mx-4">Token Yang Didapatkan</h2>
   <div class="table-group-divider mt-4 mb-2"></div>
   <div class="keyword my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Keyword</span></h4>
+    <h4><span class="badge rounded-pill text-bg-primary">Token Keyword</span></h4>
     <?php foreach($t_k as $k ) : ?>
       <span class="mx-2"><?= $k ?></span>
     <?php endforeach; ?>
   </div>
   <div class="operator my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Operator</span></h4>
+    <h4><span class="badge rounded-pill text-bg-primary">Token Operator</span></h4>
     <?php foreach($t_o as $o ) : ?>
       <span class="mx-2"><?= $o ?></span>
     <?php endforeach; ?>
   </div>
   <div class="delimiter my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Delimiter</span></h4>
+    <h4><span class="badge rounded-pill text-bg-primary">Token Delimiter</span></h4>
     <?php foreach($t_d as $d ) : ?>
       <span class="mx-2"><?= $d ?></span>
     <?php endforeach; ?>
   </div>
   <div class="nilai-konstanta-number my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Nilai Konstanta (Number)</span></h4>
+    <h4><span class="badge rounded-pill text-bg-primary">Token Nilai Konstanta (Number)</span></h4>
     <?php foreach($t_vn as $vn ) : ?>
       <span class="mx-2"><?= $vn ?></span>
     <?php endforeach; ?>
   </div>
   <div class="nilai-konstanta-string my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Nilai Konstanta (String)</span></h4>
+    <h4><span class="badge rounded-pill text-bg-primary">Token Nilai Konstanta (String)</span></h4>
     <?php foreach($t_vs as $vs ) : ?>
       <span class="mx-2"><?= $vs ?></span>
     <?php endforeach; ?>
   </div>
   <div class="nilai-konstanta-string my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Nilai Konstanta (Array)</span></h4>
+    <h4><span class="badge rounded-pill text-bg-primary">Token Nilai Konstanta (Array)</span></h4>
     <?php foreach($t_va as $va ) : ?>
       <span class="mx-2"><?= $va ?></span>
     <?php endforeach; ?>
   </div>
   <div class="variabe my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Variabel</span></h4>
+    <h4><span class="badge rounded-pill text-bg-primary">Token Variabel</span></h4>
     <?php foreach($t_v as $v ) : ?>
       <span class="mx-2"><?= $v ?></span>
     <?php endforeach; ?>
