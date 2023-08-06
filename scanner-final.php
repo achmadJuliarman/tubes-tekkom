@@ -16,6 +16,7 @@ $keywordRegex =
 $delimiterRegex = "/[\(\)\{\}\[\];,.]/";
 $valueRegexNumber = "/(?<=\s)[0-9]*[ -|-]?[0-9]*?(?=\;)/m";
 $valueRegexString = "/(?<=\"|\')(.*?)(?=\"\;|\'\;)/";
+$valueRegexArray = "/(?<=\s)\[(.*?)\](?=\;)/";
 $operatorRegex = "/(?<=\s|[A-z0-9])==|!=|=|\*\*|\*|\/|\+=|\+\+|\+|-=|--|-|%|\|\||\||&&|&=|&|\<\<=|\<=|\<|\>\>=|\>=|\>(?=[\s|^\s]|[A-z0-9])/";
 $variabelRegex = "/(?<=var|let|const|[,|\s,])\w+(?=\s=|\s,|,)/";
 
@@ -24,6 +25,7 @@ $tokens = [
   "delimiter" => [],
   "value_number" => [],
   "value_string" => [],
+  "value_array" => [],
   "operator" => [],
   "variabel" => []
 ];
@@ -38,6 +40,9 @@ array_push($tokens['value_number'], $t_value_number[0]);
 
 preg_match_all($valueRegexString, $myfile, $t_value_string);
 array_push($tokens['value_string'], $t_value_string[0]);
+
+preg_match_all($valueRegexArray, $myfile, $t_value_array);
+array_push($tokens['value_array'], $t_value_array[0]);
 
 preg_match_all($operatorRegex, $myfile, $t_operator);
 array_push($tokens['operator'], $t_operator[0]);
@@ -126,6 +131,7 @@ function getTokens(){
 <?php $t_o = $tokens['operator'][0];?>
 <?php $t_vn = $tokens['value_number'][0];?>
 <?php $t_vs = $tokens['value_string'][0];?>
+<?php $t_va = $tokens['value_array'][0];?>
 <?php $t_v = $tokens['variabel'][0];?>
 <div class="tokens container mt-4" id="tokens" style="height:90vh;">
   <h2><img src="semicolon.png" alt="Bootstrap" style="width:5%;" class="mx-4">Token Yang Didapatkan</h2>
@@ -158,6 +164,12 @@ function getTokens(){
     <h4><span class="badge rounded-pill text-bg-primary">Nilai Konstanta (String)</span></h4>
     <?php foreach($t_vs as $vs ) : ?>
       <span class="mx-2"><?= $vs ?></span>
+    <?php endforeach; ?>
+  </div>
+  <div class="nilai-konstanta-string my-4">
+    <h4><span class="badge rounded-pill text-bg-primary">Nilai Konstanta (Array)</span></h4>
+    <?php foreach($t_va as $va ) : ?>
+      <span class="mx-2"><?= $va ?></span>
     <?php endforeach; ?>
   </div>
   <div class="variabe my-4">
