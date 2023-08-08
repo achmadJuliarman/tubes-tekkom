@@ -11,14 +11,25 @@ $myfile = preg_replace("/(?<=[A-z0-9])(?==)/s", " ", $myfile); // tambah \s jika
 $myfile = preg_replace("/(?<=\=)\s*(?=[^=])/s", " ", $myfile); // ubah multi \s dengan single \s
 $myfile = preg_replace("/(?<=)\s*(?=\;)/s", "", $myfile); // hapus \s sebelum semicolon
 
+// (?<=[^A-Za-z0-9]) bermakna ambil semua simbol/karakter(function|if|else dll) 
+// yang bukan (^) diawalli dengan huruf A-z, a-z, dan 0-9 
 $keywordRegex = 
 "/(?<=[^A-Za-z0-9])(function|if|else|return|var|let|const|for|while|switch|case|break|continue|do|default|class|new|this|typeof|instanceof|import|export|static)(?=[^A-Za-z0-9])/";
+
+// ambil seluruh simbol yang berada dalam (, ), {, }, [, ], ;, ',', .
 $delimiterRegex = "/[\(\)\{\}\[\];,.]/";
+
+// ambil seluruh angka [0-9] 
 $valueRegexNumber = "/(?<=\s)[0-9]*[ -|-]?[0-9]*?(?=\;)/m";
 $valueRegexString = "/(?<=\"|\')(.*?)(?=\"\;|\'\;)/";
 $valueRegexArray = "/(?<=\s)\[(.*?)\](?=\;)/";
+
+// $nilaiKonstantaRegex = "/(?<=\s=\s).*(?=;)/";
+
 $operatorRegex = "/(?<=\s|[A-z0-9])==|!=|=|\*\*|\*|\/|\+=|\+\+|\+|-=|--|-|%|\|\||\||&&|&=|&|\<\<=|\<=|\<|\>\>=|\>=|\>(?=[\s|^\s]|[A-z0-9])/";
 $variabelRegex = "/(?<=var|let|const|[,|\s,])\w+(?=\s=|\s,|,)/";
+
+$namaFungsiRegex = "/(?<=function\s).*(?=\s*\(\))/"; 
 
 $tokens = [
   "keyword" => [],
@@ -26,6 +37,7 @@ $tokens = [
   "value_number" => [],
   "value_string" => [],
   "value_array" => [],
+  "nama_fungsi" => [],
   "operator" => [],
   "variabel" => []
 ];
@@ -49,6 +61,9 @@ array_push($tokens['operator'], $t_operator[0]);
 
 preg_match_all($variabelRegex, $myfile, $t_variabel);
 array_push($tokens['variabel'], $t_variabel[0]);
+
+preg_match_all($namaFungsiRegex, $myfile, $t_nama_fungsi);
+array_push($tokens['nama_fungsi'], $t_nama_fungsi[0]);
 
 function getTokens(){
     global $tokens;
@@ -133,52 +148,65 @@ function getTokens(){
 <?php $t_vs = $tokens['value_string'][0];?>
 <?php $t_va = $tokens['value_array'][0];?>
 <?php $t_v = $tokens['variabel'][0];?>
-<div class="tokens container mt-4" id="tokens" style="height:90vh;">
+<?php $t_f = $tokens['nama_fungsi'][0];?>
+<div class="tokens container mt-4" id="tokens" style="height:100vh;">
   <h2><img src="semicolon.png" alt="Bootstrap" style="width:5%;" class="mx-4">Token Yang Didapatkan</h2>
   <div class="table-group-divider mt-4 mb-2"></div>
   <div class="keyword my-4">
+
+  <h2><span class="badge rounded-pill text-bg-dark mx-2">Identifier</span></h2>
     <h4><span class="badge rounded-pill text-bg-primary">Token Keyword</span></h4>
     <?php foreach($t_k as $k ) : ?>
-      <span class="mx-2"><?= $k ?></span>
-    <?php endforeach; ?>
-  </div>
-  <div class="operator my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Token Operator</span></h4>
-    <?php foreach($t_o as $o ) : ?>
-      <span class="mx-2"><?= $o ?></span>
-    <?php endforeach; ?>
-  </div>
-  <div class="delimiter my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Token Delimiter</span></h4>
-    <?php foreach($t_d as $d ) : ?>
-      <span class="mx-2"><?= $d ?></span>
-    <?php endforeach; ?>
-  </div>
-  <div class="nilai-konstanta-number my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Token Nilai Konstanta (Number)</span></h4>
-    <?php foreach($t_vn as $vn ) : ?>
-      <span class="mx-2"><?= $vn ?></span>
-    <?php endforeach; ?>
-  </div>
-  <div class="nilai-konstanta-string my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Token Nilai Konstanta (String)</span></h4>
-    <?php foreach($t_vs as $vs ) : ?>
-      <span class="mx-2"><?= $vs ?></span>
-    <?php endforeach; ?>
-  </div>
-  <div class="nilai-konstanta-string my-4">
-    <h4><span class="badge rounded-pill text-bg-primary">Token Nilai Konstanta (Array)</span></h4>
-    <?php foreach($t_va as $va ) : ?>
-      <span class="mx-2"><?= $va ?></span>
+      <span class="mx-2 badge text-bg-info"><?= $k ?></span>
     <?php endforeach; ?>
   </div>
   <div class="variabe my-4">
     <h4><span class="badge rounded-pill text-bg-primary">Token Variabel</span></h4>
     <?php foreach($t_v as $v ) : ?>
-      <span class="mx-2"><?= $v ?></span>
+      <span class="mx-2 badge text-bg-info"><?= $v ?></span>
     <?php endforeach; ?>
   </div>
+  <div class="variabe my-4">
+    <h4><span class="badge rounded-pill text-bg-primary">Token Nama Fungsi</span></h4>
+    <?php foreach($t_f as $f ) : ?>
+      <span class="mx-2 badge text-bg-info"><?= $f ?></span>
+    <?php endforeach; ?>
+  </div>
+  <h2><span class="badge rounded-pill text-bg-dark mx-2">Operator & Delimiter</span></h2>
+  <div class="operator my-4">
+    <h4><span class="badge rounded-pill text-bg-primary">Token Operator</span></h4>
+    <?php foreach($t_o as $o ) : ?>
+      <span class="mx-2 badge text-bg-info"><?= $o ?></span>
+    <?php endforeach; ?>
+  </div>
+  <div class="delimiter my-4">
+    <h4><span class="badge rounded-pill text-bg-primary">Token Delimiter</span></h4>
+    <?php foreach($t_d as $d ) : ?>
+      <span class="mx-2 badge text-bg-info"><?= $d ?></span>
+    <?php endforeach; ?>
+  </div>
+   <h2><span class="badge rounded-pill text-bg-dark mx-2">Nilai Konstanta</span></h2>
+  <div class="nilai-konstanta-number my-4">
+    <h4><span class="badge rounded-pill text-bg-primary">Token Nilai Konstanta (Number)</span></h4>
+    <?php foreach($t_vn as $vn ) : ?>
+      <span class="mx-2 badge text-bg-info"><?= $vn ?></span>
+    <?php endforeach; ?>
+  </div>
+  <div class="nilai-konstanta-string my-4">
+    <h4><span class="badge rounded-pill text-bg-primary">Token Nilai Konstanta (String)</span></h4>
+    <?php foreach($t_vs as $vs ) : ?>
+      <span class="mx-2 badge text-bg-info"><?= $vs ?></span>
+    <?php endforeach; ?>
+  </div>
+  <div class="nilai-konstanta-string my-4">
+    <h4><span class="badge rounded-pill text-bg-primary">Token Nilai Konstanta (Array)</span></h4>
+    <?php foreach($t_va as $va ) : ?>
+      <span class="mx-2 badge text-bg-info"><?= $va ?></span>
+    <?php endforeach; ?>
+  </div>
+  
 </div>
+<br><br><br>
 <?php endif; ?>
 
 <script>
