@@ -4,6 +4,7 @@ if (isset($_POST['js-code'])) {
 }else{
   $myfile = "";
 }
+
 $myfile = preg_replace("/\/\/.*/", " ", $myfile); // hapus single comment
 $myfile = preg_replace("/\/\*.*?\*\//s", " ", $myfile); // hapus multiline comment
 $myfile = preg_replace("/(?<=\=)(?=[^=])/s", " ", $myfile); // tambah \s jika setelah = tidak ada spasi, untuk variabel
@@ -16,19 +17,17 @@ $myfile = preg_replace("/(?<=)\s*(?=\;)/s", "", $myfile); // hapus \s sebelum se
 $keywordRegex = 
 "/(?<=[^A-Za-z0-9])(function|if|else|return|var|let|const|for|while|switch|case|break|continue|do|default|class|new|this|typeof|instanceof|import|export|static)(?=[^A-Za-z0-9])/";
 
-// ambil seluruh simbol yang berada dalam (, ), {, }, [, ], ;, ',', .
+// ambil seluruh simbol yang terdiri (, ), {, }, [, ], ;, ',', .
 $delimiterRegex = "/[\(\)\{\}\[\];,.]/";
+$operatorRegex = "/(?<=\s|[A-z0-9])==|!=|=|\*\*|\*|\/|\+=|\+\+|\+|-=|--|-|%|\|\||\||&&|&=|&|\<\<=|\<=|\<|\>\>=|\>=|\>(?=[\s|^\s]|[A-z0-9])/";
 
 // ambil seluruh angka [0-9] 
-$valueRegexNumber = "/(?<=\s)[0-9]*[ -|-]?[0-9]*?(?=\;)/m";
+$valueRegexNumber = "/(?<=\s)-?[0-9]*\.[0-9]*(\s*-\s*|\s*\+\s*|\s*\/\s*|\s*\%\s*)?[0-9]*?(?=\;)/m";
 $valueRegexString = "/(?<=\"|\')(.*?)(?=\"\;|\'\;)/";
 $valueRegexArray = "/(?<=\s)\[(.*?)\](?=\;)/";
 
-// $nilaiKonstantaRegex = "/(?<=\s=\s).*(?=;)/";
-
-$operatorRegex = "/(?<=\s|[A-z0-9])==|!=|=|\*\*|\*|\/|\+=|\+\+|\+|-=|--|-|%|\|\||\||&&|&=|&|\<\<=|\<=|\<|\>\>=|\>=|\>(?=[\s|^\s]|[A-z0-9])/";
+//
 $variabelRegex = "/(?<=var|let|const|[,|\s,])\w+(?=\s=|\s,|,)/";
-
 $namaFungsiRegex = "/(?<=function\s).*(?=\s*\(\))/"; 
 
 $tokens = [
@@ -149,7 +148,7 @@ function getTokens(){
 <?php $t_va = $tokens['value_array'][0];?>
 <?php $t_v = $tokens['variabel'][0];?>
 <?php $t_f = $tokens['nama_fungsi'][0];?>
-<div class="tokens container mt-4" id="tokens" style="height:100vh;">
+<div class="tokens container mt-4" id="tokens" style="height:150vh;">
   <h2><img src="semicolon.png" alt="Bootstrap" style="width:5%;" class="mx-4">Token Yang Didapatkan</h2>
   <div class="table-group-divider mt-4 mb-2"></div>
   <div class="keyword my-4">
